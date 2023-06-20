@@ -1,7 +1,16 @@
+# compressed file
 *.tar
 *.rar
 *.zip
 
+# folders
 __pycache__
 env
 .ipynb_checkpoints
+
+# models
+*.h5
+*.pd
+*.ckpt
+*.pth
+*.pb
