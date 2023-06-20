@@ -21,8 +21,18 @@ for i in range(n):
     for a in image.attributes.keys():
         print('\t',a,'=',image.attributes[a].value)
         
+    # get annotation follow ananotation_types
     for annotation_type in annotation_types:
-        tag = image.getElementsByTagName(annotation_type)
-        print('\t\t','Found ',tag.length,' ',annotation_type)
+        annotations = image.getElementsByTagName(annotation_type)
+        m = annotations.length
+        print('\t\t','Found ',m,' ',annotation_type)
         
+        # get all keys attribute of annotation
+        for j in range(m):
+            annotation = annotations[j]
+            # get all keys attribute of image
+            for a in annotation.attributes.keys():
+                print('\t\t\t',a,'=',annotation.attributes[a].value)
+        
+            
         
