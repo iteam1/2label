@@ -35,6 +35,8 @@ tool convert cvat annotation `CVAT for images 1.1` and via-via 2.0 annotation `v
 
 # references
 
+https://www.geeksforgeeks.org/create-xml-documents-using-python/
+
 https://www.geeksforgeeks.org/read-json-file-using-python/
 
 https://www.geeksforgeeks.org/xml-basics/
