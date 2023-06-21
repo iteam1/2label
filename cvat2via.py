@@ -35,7 +35,37 @@ for i in range(n):
     for annotation_type in annotation_types:
         annotations = image.getElementsByTagName(annotation_type)
         m = annotations.length
-        print('\t\t','Found ',m,' ',annotation_type)
+        print('\t\t','Found',m,annotation_type)
+        
+        for annotation in annotations:
+            # current region
+            region = {
+                "shape_attributes":{},
+                "region_attributes": {
+                    "label": ""
+                }
+            }
+            # get label
+            label = annotation.attributes['label'].value
+            region["region_attributes"]["label"]=label
+            
+            if annotation_type == "box":
+                region_name = "rect"
+                
+            elif annotation_type == "polygon":
+                region_name = "polygon"
+
+            elif annotation_type == "polyline":
+                region_name = "polyline"
+
+            else:
+                print("Error:",annotation_type,"is not supported")
+                continue
+            
+            region["shape_attributes"]["name"]=region_name
+            
+            # update region
+            tmp["regions"].append(region)
 
     img_key = img_name + str(img_side)
     # update to dictionary
