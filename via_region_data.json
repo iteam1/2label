@@ -6,442 +6,662 @@
         "regions": [
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 609,
+                    "y": 6,
+                    "width": 37,
+                    "height": 42
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 702,
+                    "y": 138,
+                    "width": 45,
+                    "height": 46
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 785,
+                    "y": 456,
+                    "width": 37,
+                    "height": 40
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 1,
+                    "y": 65,
+                    "width": 31,
+                    "height": 38
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 645,
+                    "y": 12,
+                    "width": 44,
+                    "height": 46
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 281,
+                    "y": 14,
+                    "width": 42,
+                    "height": 47
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 681,
+                    "y": 69,
+                    "width": 52,
+                    "height": 47
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 510,
+                    "y": 19,
+                    "width": 29,
+                    "height": 29
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 296,
+                    "y": 434,
+                    "width": 27,
+                    "height": 30
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 375,
+                    "y": 166,
+                    "width": 38,
+                    "height": 38
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 582,
+                    "y": 68,
+                    "width": 35,
+                    "height": 44
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 266,
+                    "y": 432,
+                    "width": 34,
+                    "height": 31
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 794,
+                    "y": 0,
+                    "width": 56,
+                    "height": 54
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 636,
+                    "y": 557,
+                    "width": 45,
+                    "height": 38
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 637,
+                    "y": 215,
+                    "width": 41,
+                    "height": 42
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 133,
+                    "y": 485,
+                    "width": 28,
+                    "height": 26
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 177,
+                    "y": 469,
+                    "width": 32,
+                    "height": 35
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 290,
+                    "y": 171,
+                    "width": 25,
+                    "height": 29
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 176,
+                    "y": 310,
+                    "width": 32,
+                    "height": 31
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 669,
+                    "y": 158,
+                    "width": 35,
+                    "height": 38
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 268,
+                    "y": 608,
+                    "width": 26,
+                    "height": 27
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 445,
+                    "y": 276,
+                    "width": 31,
+                    "height": 26
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 648,
+                    "y": 589,
+                    "width": 39,
+                    "height": 37
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 134,
+                    "y": 351,
+                    "width": 25,
+                    "height": 34
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 677,
+                    "y": 220,
+                    "width": 42,
+                    "height": 42
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 260,
+                    "y": 569,
+                    "width": 23,
+                    "height": 28
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 262,
+                    "y": 119,
+                    "width": 26,
+                    "height": 34
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 149,
+                    "y": 455,
+                    "width": 28,
+                    "height": 29
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 354,
+                    "y": 14,
+                    "width": 32,
+                    "height": 28
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 649,
+                    "y": 614,
+                    "width": 37,
+                    "height": 33
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 187,
+                    "y": 16,
+                    "width": 36,
+                    "height": 39
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 527,
+                    "y": 536,
+                    "width": 37,
+                    "height": 44
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 531,
+                    "y": 27,
+                    "width": 29,
+                    "height": 31
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 662,
+                    "y": 456,
+                    "width": 35,
+                    "height": 36
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 523,
+                    "y": 0,
+                    "width": 27,
+                    "height": 13
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 582,
+                    "y": 531,
+                    "width": 39,
+                    "height": 41
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 7,
+                    "y": 540,
+                    "width": 41,
+                    "height": 44
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 708,
+                    "y": 555,
+                    "width": 40,
+                    "height": 41
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 123,
+                    "y": 141,
+                    "width": 49,
+                    "height": 41
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 877,
+                    "y": 179,
+                    "width": 33,
+                    "height": 39
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 160,
+                    "y": 262,
+                    "width": 31,
+                    "height": 32
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 613,
+                    "y": 77,
+                    "width": 39,
+                    "height": 38
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 490,
+                    "y": 0,
+                    "width": 41,
+                    "height": 39
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 751,
+                    "y": 523,
+                    "width": 40,
+                    "height": 39
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 125,
+                    "y": 299,
+                    "width": 29,
+                    "height": 26
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 607,
+                    "y": 46,
+                    "width": 43,
+                    "height": 33
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 404,
+                    "y": 88,
+                    "width": 42,
+                    "height": 52
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 277,
+                    "y": 260,
+                    "width": 41,
+                    "height": 37
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 852,
+                    "y": 509,
+                    "width": 42,
+                    "height": 39
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 331,
+                    "y": 279,
+                    "width": 33,
+                    "height": 33
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 243,
+                    "y": 156,
+                    "width": 43,
+                    "height": 39
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 273,
+                    "y": 581,
+                    "width": 26,
+                    "height": 27
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 230,
+                    "y": 205,
+                    "width": 41,
+                    "height": 35
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 252,
+                    "y": 426,
+                    "width": 24,
+                    "height": 32
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "rect"
+                    "name": "rect",
+                    "x": 111,
+                    "y": 509,
+                    "width": 28,
+                    "height": 33
                 },
                 "region_attributes": {
-                    "label": "orange"
+                    "labels": "orange"
                 }
             }
         ]
@@ -453,18 +673,18 @@
         "regions": [
             {
                 "shape_attributes": {
-                    "name": "polygon"
+                    "name": "region"
                 },
                 "region_attributes": {
-                    "label": "bear"
+                    "labels": "bear"
                 }
             },
             {
                 "shape_attributes": {
-                    "name": "polygon"
+                    "name": "region"
                 },
                 "region_attributes": {
-                    "label": "bear"
+                    "labels": "bear"
                 }
             }
         ]
@@ -479,7 +699,7 @@
                     "name": "polyline"
                 },
                 "region_attributes": {
-                    "label": "crack"
+                    "labels": "crack"
                 }
             },
             {
@@ -487,7 +707,7 @@
                     "name": "polyline"
                 },
                 "region_attributes": {
-                    "label": "crack"
+                    "labels": "crack"
                 }
             },
             {
@@ -495,7 +715,7 @@
                     "name": "polyline"
                 },
                 "region_attributes": {
-                    "label": "crack"
+                    "labels": "crack"
                 }
             },
             {
@@ -503,7 +723,7 @@
                     "name": "polyline"
                 },
                 "region_attributes": {
-                    "label": "crack"
+                    "labels": "crack"
                 }
             },
             {
@@ -511,7 +731,7 @@
                     "name": "polyline"
                 },
                 "region_attributes": {
-                    "label": "crack"
+                    "labels": "crack"
                 }
             },
             {
@@ -519,7 +739,7 @@
                     "name": "polyline"
                 },
                 "region_attributes": {
-                    "label": "crack"
+                    "labels": "crack"
                 }
             }
         ]

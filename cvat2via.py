@@ -36,34 +36,45 @@ for i in range(n):
         annotations = image.getElementsByTagName(annotation_type)
         m = annotations.length
         print('\t\t','Found',m,annotation_type)
-        
+
         for annotation in annotations:
             # current region
             region = {
                 "shape_attributes":{},
                 "region_attributes": {
-                    "label": ""
+                    "labels": ""
                 }
             }
             # get label
             label = annotation.attributes['label'].value
-            region["region_attributes"]["label"]=label
-            
+            region["region_attributes"]["labels"]=label
+
             if annotation_type == "box":
                 region_name = "rect"
-                
+                region['shape_attributes']['name'] = region_name
+                xtl = int(float(annotation.attributes['xtl'].value))
+                ytl = int(float(annotation.attributes['ytl'].value))
+                xbr = int(float(annotation.attributes['xbr'].value))
+                ybr = int(float(annotation.attributes['ybr'].value))
+                width = xbr -xtl
+                height = ybr - ytl
+                region['shape_attributes']['x'] = xtl
+                region['shape_attributes']['y'] = ytl
+                region['shape_attributes']['width'] = width
+                region['shape_attributes']['height'] = height
+
             elif annotation_type == "polygon":
-                region_name = "polygon"
+                region_name = "region"
+                region['shape_attributes']['name'] = region_name
 
             elif annotation_type == "polyline":
                 region_name = "polyline"
+                region['shape_attributes']['name'] = region_name
 
             else:
                 print("Error:",annotation_type,"is not supported")
                 continue
-            
-            region["shape_attributes"]["name"]=region_name
-            
+
             # update region
             tmp["regions"].append(region)
 
