@@ -673,7 +673,7 @@
         "regions": [
             {
                 "shape_attributes": {
-                    "name": "region",
+                    "name": "polygon",
                     "all_points_x": [
                         233,
                         230,
@@ -815,7 +815,7 @@
             },
             {
                 "shape_attributes": {
-                    "name": "region",
+                    "name": "polygon",
                     "all_points_x": [
                         485,
                         481,

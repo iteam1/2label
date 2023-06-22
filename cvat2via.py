@@ -75,7 +75,7 @@ for i in range(n):
                 region['shape_attributes']['height'] = height
 
             elif annotation_type == "polygon":
-                region_name = "region"
+                region_name = "polygon"
                 region['shape_attributes']['name'] = region_name
                 region['shape_attributes']['all_points_x'] = []
                 region['shape_attributes']['all_points_y'] = []
