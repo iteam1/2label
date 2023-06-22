@@ -77,10 +77,27 @@ for i in range(n):
             elif annotation_type == "polygon":
                 region_name = "region"
                 region['shape_attributes']['name'] = region_name
+                region['shape_attributes']['all_points_x'] = []
+                region['shape_attributes']['all_points_y'] = []
+                points = annotation.attributes['points'].value
+                points = points.split(';')
+                for point in points:
+                    x,y = point.split(',')
+                    region['shape_attributes']['all_points_x'].append(int(float(x)))
+                    region['shape_attributes']['all_points_y'].append(int(float(y)))
+
 
             elif annotation_type == "polyline":
                 region_name = "polyline"
                 region['shape_attributes']['name'] = region_name
+                region['shape_attributes']['all_points_x'] = []
+                region['shape_attributes']['all_points_y'] = []
+                points = annotation.attributes['points'].value
+                points = points.split(';')
+                for point in points:
+                    x,y = point.split(',')
+                    region['shape_attributes']['all_points_x'].append(int(float(x)))
+                    region['shape_attributes']['all_points_y'].append(int(float(y)))
 
             else:
                 print("Error:",annotation_type,"is not supported")
