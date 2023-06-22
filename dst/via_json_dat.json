@@ -1,8 +1,8 @@
 {
-    "img.jpg163560": {
+    "img.jpg162186": {
         "filename": "img.jpg",
         "file_attributes": {},
-        "side": 163560,
+        "size": 162186,
         "regions": [
             {
                 "shape_attributes": {
@@ -666,10 +666,10 @@
             }
         ]
     },
-    "img2.jpg157210": {
+    "img2.jpg68941": {
         "filename": "img2.jpg",
         "file_attributes": {},
-        "side": 157210,
+        "size": 68941,
         "regions": [
             {
                 "shape_attributes": {
@@ -689,10 +689,10 @@
             }
         ]
     },
-    "img3.jpg60631": {
+    "img3.jpg85263": {
         "filename": "img3.jpg",
         "file_attributes": {},
-        "side": 60631,
+        "size": 85263,
         "regions": [
             {
                 "shape_attributes": {

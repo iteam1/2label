@@ -1,14 +1,22 @@
 import os
+import shutil
 import json
 from xml.dom import minidom
 
-output_path = 'via_region_data.json'
+src = "cvat"
+dst = 'dst'
+if not os.path.exists(dst):
+    os.mkdir(dst)
+else:
+    print('please remove dst first')
+    exit(-1)
+
 # all supported annotation types
 annotation_types = ['box','polygon','polyline']
 dict = {}
 
 # read xml file
-file = minidom.parse('cvat/annotations.xml')
+file = minidom.parse(os.path.join(src,'annotations.xml'))
 
 # use getElementsByTagName() to get tag image
 images = file.getElementsByTagName('image')
@@ -23,12 +31,15 @@ for i in range(n):
     img_name = image.attributes['name'].value
     img_width = int(image.attributes['width'].value)
     img_height = int(image.attributes['height'].value)
-    img_side = int(img_width*img_height/3.8)
+    img_size = os.path.getsize(os.path.join(src,'images',img_name))
+
+    # copy image
+    shutil.copy(os.path.join(src,'images',img_name),os.path.join(dst,img_name))
 
     # create temporary dict
     tmp['filename'] = img_name
     tmp['file_attributes'] = {}
-    tmp['side'] = img_side
+    tmp['size'] = img_size
     tmp['regions'] = []
 
     # get annotation follow ananotation_types
@@ -78,7 +89,7 @@ for i in range(n):
             # update region
             tmp["regions"].append(region)
 
-    img_key = img_name + str(img_side)
+    img_key = img_name + str(img_size)
     # update to dictionary
     dict[img_key] = tmp
 
@@ -86,5 +97,7 @@ for i in range(n):
 json_object =json.dumps(dict,indent=4)
 
 # writing to json file
-with open(output_path,'w') as f:
+with open(os.path.join(dst,'via_json_dat.json'),'w') as f:
     f.write(json_object)
+
+exit(0)
