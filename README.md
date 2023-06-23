@@ -11,6 +11,13 @@ tool convert cvat annotation `CVAT for images 1.1` and via-via 2.0 annotation `v
 
 # TODOs
 
+- `cvat2via.py` ✔
+- `cvat2labelme.py` ✗
+- `labelme2via.py` ✗
+- `via2labelme.py` ✗
+
+# Annotation tools
+
 - `labelImg`
 - `labelme`
 - `PixelAnnotationTool`
