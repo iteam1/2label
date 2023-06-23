@@ -1,6 +1,6 @@
-# cvat2via
+# 2label
 
-tool convert cvat annotation `CVAT for images 1.1` and via-via 2.0 annotation `via_region_data.json`
+tool convert annotations
 
 # usages
 
