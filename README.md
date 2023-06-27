@@ -15,34 +15,23 @@ tool convert annotations
 - `cvat2labelme.py` ✗
 - `labelme2via.py` ✗
 - `via2labelme.py` ✗
-
+  
 # Annotation tools
 
 - `labelImg`
 - `labelme`
 - `PixelAnnotationTool`
 
-# dataset structure
-
-**cvat**
-
-        cvat
-        ├── annotations.xml
-        └── images
-            ├── img2.jpg
-            ├── img3.jpg
-            └── img.jpg
-
-**via**
-
-        via
-        ├── img2.jpg
-        ├── img3.jpg
-        ├── img.jpg
-        ├── via_region_data.csv
-        └── via_region_data.json
+*Note:*
+- `labelImg` only support rectangle annotation.
+- `labelme` support polygon annotation and rectangle annotation.
+- `cvat` support polygon annotation and rectangle annotation and line annotation.
 
 # references
+
+https://github.com/heartexlabs/labelImg
+
+https://github.com/wkentaro/labelme
 
 https://github.com/abreheret/PixelAnnotationTool
 
@@ -51,5 +40,3 @@ https://www.geeksforgeeks.org/create-xml-documents-using-python/
 https://www.geeksforgeeks.org/read-json-file-using-python/
 
 https://www.geeksforgeeks.org/xml-basics/
-
-https://github.com/heartexlabs/labelImg
