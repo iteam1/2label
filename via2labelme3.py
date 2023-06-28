@@ -1,11 +1,12 @@
 # python3 via2labelme3.py dataset/via
 import os
+import sys
 import shutil
 import json
 from xml.dom import minidom
 from PIL import Image
 
-src = "dataset/via"
+src = sys.argv[1]
 dst = 'dst'
 if not os.path.exists(dst):
     os.mkdir(dst)
