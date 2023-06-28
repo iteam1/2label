@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<annotation>
+	<filename>img3.jpg</filename>
+	<folder></folder>
+	<source>
+		<sourceImage></sourceImage>
+		<sourceAnnotation>Datumaro</sourceAnnotation>
+	</source>
+	<imagesize>
+		<nrows>360</nrows>
+		<ncols>640</ncols>
+	</imagesize>
+	<object>
+		<name>crack</name>
+	</object>
+	<object>
+		<name>crack</name>
+	</object>
+	<object>
+		<name>crack</name>
+	</object>
+	<object>
+		<name>crack</name>
+	</object>
+</annotation>

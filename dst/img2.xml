@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<annotation>
+	<filename>img2.jpg</filename>
+	<folder></folder>
+	<source>
+		<sourceImage></sourceImage>
+		<sourceAnnotation>Datumaro</sourceAnnotation>
+	</source>
+	<imagesize>
+		<nrows>580</nrows>
+		<ncols>1030</ncols>
+	</imagesize>
+	<object>
+		<name>bear</name>
+	</object>
+	<object>
+		<name>bear</name>
+	</object>
+</annotation>

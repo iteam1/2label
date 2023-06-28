@@ -3,7 +3,7 @@ import shutil
 import json
 from xml.dom import minidom
 
-src = "cvat"
+src = "dataset/cvat"
 dst = 'dst'
 if not os.path.exists(dst):
     os.mkdir(dst)
