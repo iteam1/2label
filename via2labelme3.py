@@ -11,7 +11,7 @@ if not os.path.exists(dst):
     os.mkdir(dst)
 else:
     print('please remove dst first')
-    #exit(-1)
+    exit(-1)
 
 # all via tool supported annotation types
 annotation_types = ['rect','polygon']
