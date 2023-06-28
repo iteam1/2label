@@ -1,9 +1,10 @@
+import sys
 import os
 import shutil
 import json
 from xml.dom import minidom
 
-src = "dataset/cvat"
+src = sys.argv[1]
 dst = 'dst'
 if not os.path.exists(dst):
     os.mkdir(dst)
