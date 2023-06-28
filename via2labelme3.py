@@ -191,32 +191,38 @@ def gen_xml(img_name,img_width,img_height,regions):
     xml_str = root.toprettyxml(indent='\t')
     
     return xml_str
-    
-# Opening JSON file
-with open(os.path.join(src,'via_region_data.json')) as f:
-    data = json.load(f) # return json data as dictionary
-    
-# get all image key in dictionary
-img_keys = list(data.keys())
 
-# loop through all elements in dictionary
-for img_key in img_keys:
+if __name__ == "__main__":
     
-    # get current image
-    img_dic = data[img_key]
-    img_name = img_dic['filename'] # get image name
-    
-    # get image shape
-    img = Image.open(os.path.join(src,img_name))
-    img_width, img_height = img.size
+    # Opening JSON file
+    with open(os.path.join(src,'via_region_data.json')) as f:
+        data = json.load(f) # return json data as dictionary
+        
+    # get all image key in dictionary
+    img_keys = list(data.keys())
 
-    regions = img_dic['regions'] # get regions
-    
-    # copy image to destination folder
-    shutil.copy(os.path.join(src,img_name),os.path.join(dst,img_name))
-    
-    # generate xml file and save to destination folder
-    xml_str = gen_xml(img_name,img_width,img_height,regions)
-    save_path_file = os.path.join(dst,img_name.split('.')[0]+'.xml')
-    with open(save_path_file,'w') as f:
-        f.write(xml_str)
+    # loop through all elements in dictionary
+    for img_key in img_keys:
+        
+        # get current image
+        img_dic = data[img_key]
+        img_name = img_dic['filename'] # get image name
+        
+        # get image shape
+        img = Image.open(os.path.join(src,img_name))
+        img_width, img_height = img.size
+
+        regions = img_dic['regions'] # get regions
+        
+        # copy image to destination folder
+        shutil.copy(os.path.join(src,img_name),os.path.join(dst,img_name))
+        
+        # generate xml file and save to destination folder
+        xml_str = gen_xml(img_name,img_width,img_height,regions)
+        save_path_file = os.path.join(dst,img_name.split('.')[0]+'.xml')
+        with open(save_path_file,'w') as f:
+            f.write(xml_str)
+            
+    print("Done!")
+
+    exit(0)
