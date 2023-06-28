@@ -26,7 +26,7 @@ tool convert annotations
 - `labelImg` only support rectangle annotation.
 - `labelme` support polygon annotation and rectangle annotation.
 - `cvat` support polygon annotation and rectangle annotation and line annotation.
-
+- annotations in via attribute is `labels`
 # references
 
 https://github.com/heartexlabs/labelImg
