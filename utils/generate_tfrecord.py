@@ -85,7 +85,6 @@ def xml_to_csv(path):
         height = int(root.find('size').find('height').text)
         for member in root.findall('object'):
             bndbox = member.find('bndbox')
-            print(dir(bndbox.find('xmin')))
             value = (filename,
                      width,
                      height,
