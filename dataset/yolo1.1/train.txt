@@ -1,0 +1,3 @@
+data/obj_train_data/img.jpg
+data/obj_train_data/img2.jpg
+data/obj_train_data/img3.jpg
