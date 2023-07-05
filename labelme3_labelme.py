@@ -1,11 +1,12 @@
 import os
+import sys
 import json
 import shutil
 import base64
 from xml.dom import minidom
 from PIL import Image
 
-src = "dataset/labelme3.0"
+src = sys.argv[1]
 
 dst = 'dst'
 if not os.path.exists(dst):
