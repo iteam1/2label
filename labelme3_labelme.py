@@ -15,6 +15,12 @@ else:
     print('please remove dst first')
     exit(-1)
     
+# create image folder
+os.mkdir(os.path.join(dst,'images'))
+
+# create json folder
+os.mkdir(os.path.join(dst,'annotations'))
+    
 def xml_to_json(xml_file):
     json_data = {}
     json_data['version'] = '5.2.1'
@@ -80,13 +86,13 @@ for xml_file in xml_files:
     file_name = xml_file.split('.')[0]
     
     # copy image to destination folder
-    shutil.copy(os.path.join(src,file_name+'.jpg'),os.path.join(dst,file_name+'.jpg'))
+    shutil.copy(os.path.join(src,file_name+'.jpg'),os.path.join(dst,'images',file_name+'.jpg'))
     
     # convert xml to json
     json_data = xml_to_json(xml_file)
     
     # serializing json
     json_object =json.dumps(json_data,indent=4)
-    with open(os.path.join(dst,file_name+'.json'),'w') as f:
+    with open(os.path.join(dst,'annotations',file_name+'.json'),'w') as f:
         f.write(json_object)
     
