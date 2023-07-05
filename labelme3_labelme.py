@@ -13,7 +13,7 @@ if not os.path.exists(dst):
     os.mkdir(dst)
 else:
     print('please remove dst first')
-    #exit(-1)
+    exit(-1)
     
 def xml_to_json(xml_file):
     json_data = {}
