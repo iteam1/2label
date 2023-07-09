@@ -11,10 +11,10 @@ tool convert annotations
 
 # TODOs
 
-- `cvat2via.py` ✔
-- `cvat2labelme.py` ✗
-- `labelme2via.py` ✗
-- `via2labelme.py` ✗
+- `cvat_via.py` ✔
+- `cvat_labelme.py` ✗
+- `labelme_via.py` ✗
+- `via_labelme.py` ✗
   
 # Annotation tools
 
