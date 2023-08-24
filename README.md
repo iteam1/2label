@@ -2,6 +2,8 @@
 
 tool convert annotations
 
+graph
+
 # usages
 
 - convert cvat annotation `CVAT for images 1.1` to via-via 2.0 annotation `via_region_data.json`
@@ -16,7 +18,7 @@ tool convert annotations
 - `labelme_via.py` ✗
 - `via_labelme.py` ✗
 - cutting
-= tfrecord + visualize
+- tfrecord + visualize
   
 # Annotation tools
 
