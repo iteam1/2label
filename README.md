@@ -22,9 +22,10 @@ graph
   
 # Annotation tools
 
-- `labelImg`
-- `labelme`
+- `labelImg` install command: `pip install labelImg`
+- `labelme` install command: `pip install labelme`
 - `PixelAnnotationTool`
+- `cvat`
 
 *Note:*
 - `labelImg` only support rectangle annotation.
@@ -39,8 +40,3 @@ https://github.com/wkentaro/labelme
 
 https://github.com/abreheret/PixelAnnotationTool
 
-https://www.geeksforgeeks.org/create-xml-documents-using-python/
-
-https://www.geeksforgeeks.org/read-json-file-using-python/
-
-https://www.geeksforgeeks.org/xml-basics/
