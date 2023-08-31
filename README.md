@@ -22,10 +22,11 @@ graph
   
 # Annotation tools
 
-- `labelImg` install command: `pip install labelImg`
-- `labelme` install command: `pip install labelme`
-- `PixelAnnotationTool`
-- `cvat`
+- [labelImg](https://github.com/heartexlabs/labelImg) install command: `pip install labelImg`
+- [labelme](https://github.com/wkentaro/labelme) install command: `pip install labelme`
+- [PixelAnnotationTool](https://github.com/abreheret/PixelAnnotationTool)
+- [cvat](https://github.com/opencv/cvat)
+- [via](https://www.robots.ox.ac.uk/~vgg/software/via/)
 
 *Note:*
 - `labelImg` only support rectangle annotation.
@@ -33,10 +34,3 @@ graph
 - `cvat` support polygon annotation and rectangle annotation and line annotation.
 - annotations in via attribute is `labels`
 # references
-
-https://github.com/heartexlabs/labelImg
-
-https://github.com/wkentaro/labelme
-
-https://github.com/abreheret/PixelAnnotationTool
-
