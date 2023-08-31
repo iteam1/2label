@@ -7,6 +7,9 @@
 __pycache__
 env
 .ipynb_checkpoints
+debug
+dst
+tmp
 
 # models
 *.h5
@@ -14,5 +17,4 @@ env
 *.ckpt
 *.pth
 *.pb
-
-debug
+*.pt
