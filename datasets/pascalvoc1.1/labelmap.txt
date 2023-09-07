@@ -1,5 +1,0 @@
-# label:color_rgb:parts:actions
-background:0,0,0::
-orange:128,0,0::
-bear:0,128,0::
-crack:128,128,0::
