@@ -10,6 +10,9 @@ tool convert annotations
 # functions
 - convert
 - utils
+  + cutting tool
+  + convert tfrecord
+  + augment data 
   
 # Annotation tools
 - [labelImg](https://github.com/heartexlabs/labelImg) install command: `pip install labelImg`
