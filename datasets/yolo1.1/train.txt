@@ -1,0 +1,4 @@
+data/obj_train_data/birds.jpg
+data/obj_train_data/crack.jpeg
+data/obj_train_data/shapes.jpg
+data/obj_train_data/strawberry.jpg

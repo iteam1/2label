@@ -1,0 +1,10 @@
+# label:color_rgb:parts:actions
+background:0,0,0::
+rectangle:128,0,0::
+triangle:0,128,0::
+circle:128,128,0::
+ellipse:0,0,128::
+line:128,0,128::
+crack:0,128,128::
+bird:128,128,128::
+strawberry:64,0,0::

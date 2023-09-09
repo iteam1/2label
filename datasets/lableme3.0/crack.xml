@@ -1,0 +1,12 @@
+<annotation>
+  <filename>crack.jpeg</filename>
+  <folder></folder>
+  <source>
+    <sourceImage></sourceImage>
+    <sourceAnnotation>Datumaro</sourceAnnotation>
+  </source>
+  <imagesize>
+    <nrows>720</nrows>
+    <ncols>1280</ncols>
+  </imagesize>
+</annotation>

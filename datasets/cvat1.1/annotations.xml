@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotations>
+  <version>1.1</version>
+  <meta>
+    <task>
+      <id>1136</id>
+      <name>samples</name>
+      <size>4</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker></bugtracker>
+      <created>2023-09-09 07:20:19.060090+00:00</created>
+      <updated>2023-09-09 07:29:20.630381+00:00</updated>
+      <subset>Test</subset>
+      <start_frame>0</start_frame>
+      <stop_frame>3</stop_frame>
+      <frame_filter></frame_filter>
+      <segments>
+        <segment>
+          <id>1112</id>
+          <start>0</start>
+          <stop>3</stop>
+          <url>http://mlserver.greystonevn.com:8080/api/jobs/1112</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>locchuong</username>
+        <email></email>
+      </owner>
+      <assignee></assignee>
+      <labels>
+        <label>
+          <name>rectangle</name>
+          <color>#832364</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>triangle</name>
+          <color>#6ff1db</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>circle</name>
+          <color>#6f883c</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>ellipse</name>
+          <color>#32c3c6</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>line</name>
+          <color>#5c9263</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>crack</name>
+          <color>#a5ecdf</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>bird</name>
+          <color>#404040</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>strawberry</name>
+          <color>#b04000</color>
+          <type>any</type>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+    </task>
+    <dumped>2023-09-09 07:36:07.897749+00:00</dumped>
+  </meta>
+  <image id="0" name="birds.jpg" width="1000" height="666">
+    <polygon label="bird" occluded="0" source="manual" points="569.07,193.73;577.08,182.28;593.11,171.98;601.50,149.10;621.71,125.45;657.95,107.52;710.59,113.62;739.58,130.41;761.32,164.74;761.32,164.74;784.97,188.39;807.48,238.74;816.63,286.80;810.53,320.37;794.13,338.68;784.59,389.79;768.95,423.74;736.53,453.11;742.63,477.53;775.06,500.41;721.27,481.34;604.55,465.70;589.29,400.85;595.78,317.70;612.18,258.57;627.44,229.20;627.44,210.13;609.89,190.29" z_order="0">
+    </polygon>
+    <polygon label="bird" occluded="0" source="manual" points="296.74,154.99;313.35,103.58;345.78,64.03;375.83,49.79;424.08,52.96;456.51,71.15;473.12,86.18;509.51,92.51;518.21,104.37;469.96,111.49;464.42,132.85;458.89,169.23;467.59,219.06;450.19,316.35;427.25,387.54;399.56,422.34;397.98,436.58;345.78,439.74;315.72,472.17;273.01,644.61;227.92,640.65;223.18,623.25;250.07,502.23;231.09,520.42;220.80,517.26;228.71,423.93;226.34,337.71;239.00,240.42;268.26,184.26;283.29,169.23" z_order="0">
+    </polygon>
+  </image>
+  <image id="1" name="crack.jpeg" width="1280" height="720">
+    <polyline label="crack" occluded="0" source="manual" points="572.43,11.99;592.95,42.77;597.23,88.10;594.66,130.00;601.50,157.36;639.13,180.45;724.64,187.29;780.22,179.59;814.42,157.36;875.14,155.65;937.56,165.91;990.57,178.74;1048.70,200.10;1032.48,242.01;1010.24,273.65;993.14,305.29;998.27,320.68;986.30,365.15;960.65,456.65;938.41,519.07;941.83,549.00;930.72,619.12;938.41,655.03;939.27,692.66;958.08,715.74" z_order="0">
+    </polyline>
+  </image>
+  <image id="2" name="shapes.jpg" width="588" height="643">
+    <polygon label="triangle" occluded="0" source="manual" points="426.87,30.53;322.25,201.59;548.29,198.54" z_order="0">
+    </polygon>
+    <polyline label="line" occluded="0" source="manual" points="82.46,532.25;114.50,554.40;161.10,578.10;210.75,586.47;258.90,576.50;301.60,546.80;342.10,507.10;385.63,468.87;428.40,440.60;467.34,431.45;506.29,434.51" z_order="0">
+    </polyline>
+    <box label="rectangle" occluded="0" source="manual" xtl="45.80" ytl="45.80" xbr="230.61" ybr="186.32" z_order="0">
+    </box>
+    <ellipse label="ellipse" occluded="0" source="manual" cx="447.89" cy="314.61" rx="82.09" ry="82.09" z_order="0">
+    </ellipse>
+    <ellipse label="ellipse" occluded="0" source="manual" cx="149.67" cy="338.30" rx="109.20" ry="75.60" z_order="0">
+    </ellipse>
+  </image>
+  <image id="3" name="strawberry.jpg" width="800" height="800">
+    <box label="strawberry" occluded="0" source="manual" xtl="326.84" ytl="681.24" xbr="368.65" ybr="730.64" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="193.82" ytl="678.38" xbr="239.43" ybr="731.59" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="255.58" ytl="525.42" xbr="290.74" ybr="561.52" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="235.63" ytl="401.90" xbr="273.63" ybr="439.90" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="685.99" ytl="531.12" xbr="706.89" ybr="555.82" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="239.43" ytl="209.98" xbr="271.73" ybr="244.18" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="606.18" ytl="144.42" xbr="634.68" ybr="172.92" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="603.33" ytl="11.40" xbr="626.13" ybr="33.25" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="516.86" ytl="58.91" xbr="550.12" ybr="94.06" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="148.22" ytl="427.55" xbr="193.82" ybr="478.86" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="584.32" ytl="494.06" xbr="623.28" ybr="533.02" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="584.32" ytl="403.80" xbr="607.13" ybr="428.50" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="563.42" ytl="300.24" xbr="594.77" ybr="334.44" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="467.46" ytl="269.83" xbr="501.66" ybr="305.94" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="467.46" ytl="426.60" xbr="488.36" ybr="453.21" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="406.65" ytl="441.81" xbr="434.20" ybr="473.16" z_order="0">
+    </box>
+    <box label="strawberry" occluded="0" source="manual" xtl="401.90" ytl="707.84" xbr="435.15" ybr="751.54" z_order="0">
+    </box>
+  </image>
+</annotations>

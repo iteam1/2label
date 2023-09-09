@@ -1,0 +1,33 @@
+<annotation>
+  <folder></folder>
+  <filename>shapes.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>588</width>
+    <height>643</height>
+    <depth></depth>
+  </size>
+  <segmented>1</segmented>
+  <object>
+    <name>rectangle</name>
+    <truncated>0</truncated>
+    <occluded>0</occluded>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>45.8</xmin>
+      <ymin>45.8</ymin>
+      <xmax>230.61</xmax>
+      <ymax>186.32</ymax>
+    </bndbox>
+    <attributes>
+      <attribute>
+        <name>rotation</name>
+        <value>0.0</value>
+      </attribute>
+    </attributes>
+  </object>
+</annotation>
