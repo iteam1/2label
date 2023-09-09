@@ -1,15 +1,11 @@
 # 2label
-
 tool convert annotations
 
-graph
+![draft](assets/draft.drawio.png)
 
 # usages
-
 - convert cvat annotation `CVAT for images 1.1` to via-via 2.0 annotation `via_region_data.json`
 - convert via-via 2.0 annotation `via_region_data.json` to cvat annotation `CVAT for images 1.1`
-
-# guide
 
 # TODOs
 - `cvat_via.py` ✔
