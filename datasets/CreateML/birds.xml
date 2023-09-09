@@ -1,0 +1,14 @@
+<annotation>
+	<folder>createML</folder>
+	<filename>birds.jpg</filename>
+	<path>/home/greystone/locchuong/LAB/2label/datasets/createML/birds.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1000</width>
+		<height>666</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+</annotation>

@@ -1,0 +1,8 @@
+bird
+crack
+rectangle
+triangle
+circle
+ellipse
+line
+strawberry

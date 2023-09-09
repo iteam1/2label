@@ -1,0 +1,1 @@
+[{"image": "birds.jpg", "annotations": [{"label": "bird", "coordinates": {"x": 368.8992248062016, "y": 342.531007751938, "width": 290.0, "height": 589.0}}, {"label": "bird", "coordinates": {"x": 693.8992248062016, "y": 298.031007751938, "width": 240.0, "height": 368.0}}]}]
