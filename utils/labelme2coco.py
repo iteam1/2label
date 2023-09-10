@@ -1,6 +1,3 @@
-'''
-python3 utils/labelme2coco.py dst --output train.json
-'''
 import os
 import argparse
 import json
