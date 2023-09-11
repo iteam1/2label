@@ -1,5 +1,5 @@
 '''
-python3 scripts/visualize_tfrecord.py dataset/train.record dataset/labelmap.pbtxt
+python3 utils/visualize_tfrecord_tf2.py dataset/train.record dataset/labelmap.pbtxt
 '''
 import matplotlib.pyplot as plt
 import numpy as np

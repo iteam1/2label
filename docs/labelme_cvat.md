@@ -1,1 +1,1 @@
-# convert via dataset to cvat
+# convert labelme dataset to cvat

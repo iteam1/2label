@@ -1,1 +1,1 @@
-# convert via dataset to cvat
+# convert labelImg dataset to cvat
