@@ -1,8 +1,10 @@
 '''
-python3 utils/augment_labelme.py --src_path src --no_sample 600
+python3 utils/augment_labelme.py --src_path src --no_sample 600 --ignore_dst
 '''
 import os
+import json
 import argparse
+from tqdm import tqdm
 
 # init argument parser
 parser = argparse.ArgumentParser(description="labelme dataset augmentation tool")
@@ -43,3 +45,20 @@ if __name__ == "__main__":
     for file in src_files:
         if file.endswith('.json'):
             annotation_files.append(file)
+    print('Total annotation files: {}'.format(len(annotation_files)))
+    
+    # check annotation files number
+    if len(annotation_files) != len(src_files)/2:
+        print('Error: number of annotation files {} is not equal to number of image files {}'.format(len(annotation_files),len(src_files)/2))
+        exit(-1)
+        
+    # calculate augmented times of each image
+    augmented_times = int(args.no_sample/len(annotation_files))
+    print('Augmented times of each image: {}'.format(augmented_times))
+        
+    # start augmentation
+    for annotation_file in tqdm(annotation_files):
+        annotation_path = os.path.join(args.src_path,annotation_file)
+        # read annotation file
+        
+        
