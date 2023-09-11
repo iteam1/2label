@@ -6,6 +6,7 @@ import cv2
 import json
 import random
 import argparse
+import numpy as np
 from tqdm import tqdm
 import base64
 
@@ -21,31 +22,57 @@ args = parser.parse_args()
 
 # initialize
 #aug_options = ['h_flip','v_flip','rotate','blur','noise','crop','resize','color','brightness','contrast','gamma','hue','saturation','value']
-aug_options = ['h_flip','v_flip','noise']
+aug_options = ['v_flip']
+
+def flip_point(point, flip_code, image_shape):
+    x, y = point
+    h, w = image_shape
+
+    if flip_code == 1:  # Horizontal Flip
+        new_x = w - x
+        new_y = y
+    elif flip_code == 0:  # Vertical Flip
+        new_x = x
+        new_y = h - y
+    elif flip_code == -1:  # Both Horizontal and Vertical Flip
+        new_x = w - x
+        new_y = h - y
+    else:
+        raise ValueError("Invalid flip_code. Use 0 for vertical, 1 for horizontal, or -1 for both.")
+
+    return new_x, new_y
 
 # define augmentation functions
 def h_flip(image,shapes):
-    image_aug = cv2.flip(image,1)
-    for shape in shapes:
+    h,w,c = image.shape
+    image_aug = image.copy()
+    image_aug = cv2.flip(image,0) # horizontal flip
+    shapes_aug = shapes.copy()
+    for k,shape in enumerate(shapes):
         points = shape['points']
+        new_points = []
         for point in points:
-            point[0] = image.shape[1] - point[0]
-    return image_aug,shapes
+            new_x, new_y = flip_point(point, 0, (h, w))
+            new_points.append([new_x,new_y])
+        shapes_aug[k]['points'] = new_points
+    return image_aug,shapes_aug
 
 def v_flip(image,shapes):
-    image_aug = cv2.flip(image,0)
-    for shape in shapes:
+    h,w,c = image.shape
+    image_aug = image.copy()
+    image_aug = cv2.flip(image_aug,1) # veritcal flip
+    shapes_aug = shapes.copy()
+    for k,shape in enumerate(shapes):
         points = shape['points']
+        new_points = []
         for point in points:
-            point[1] = image.shape[0] - point[1]
-    return image_aug,shapes
+            new_x, new_y = flip_point(point, 1, (h, w))
+            new_points.append([new_x,new_y])
+        shapes_aug[k]['points'] = new_points
+    return image_aug,shapes_aug
 
 def noise(image,shapes):
     image_aug = image.copy()
-    for i in range(image.shape[0]):
-        for j in range(image.shape[1]):
-            for k in range(image.shape[2]):
-                image_aug[i,j,k] = image[i,j,k] + random.randint(-10,10)
     return image_aug,shapes
 
 if __name__ == "__main__":
@@ -104,24 +131,25 @@ if __name__ == "__main__":
         # read image
         image_path = os.path.join(args.src_path,annotation['imagePath'])
         image = cv2.imread(image_path)
-        
+        image_org = image.copy()
+        # get shape of annotations
+        shapes = annotation['shapes']
+        shapes_org = shapes.copy()
+            
         # start augmentation
         for i in range(augmented_times):
             
             # random choose augmentation option
-            aug_option = random.choice(aug_options)
-            
-            # get shape of annotations
-            shapes = annotation['shapes']
-            
+            aug_option = 'v_flip' # random.choice(aug_options)
+    
             if aug_option == 'h_flip':
-                image_aug,shapes_aug = h_flip(image_aug,shapes)
+                image_aug,shapes_aug = h_flip(image_org,shapes_org)
 
             elif aug_option == 'v_flip':
-                image_aug,shapes = v_flip(image_aug,shapes)
+                image_aug,shapes_aug = v_flip(image_org,shapes_org)
 
             elif aug_option == 'noise':
-                image_aug,shapes = noise(image_aug,shapes)
+                image_aug,shapes_aug = noise(image_org,shapes_org)
 
             # convert image to base64
             retval, buffer = cv2.imencode('.jpg', image_aug)
