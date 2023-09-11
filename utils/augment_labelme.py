@@ -2,11 +2,14 @@
 python3 utils/augment_labelme.py --src_path src --no_sample 600 --ignore_dst
 '''
 import os
+import cv2
 import json
+import random
 import argparse
 from tqdm import tqdm
+import base64
 
-# init argument parser
+# argument parser
 parser = argparse.ArgumentParser(description="labelme dataset augmentation tool")
 # add argument to parser
 parser.add_argument('--src_path',type = str, help = 'directory of labelme dataset', required = True)
@@ -15,6 +18,35 @@ parser.add_argument('--no_sample',type = int,help = 'The number of augmented sam
 parser.add_argument('--ignore_dst',action = 'store_true',help = 'ignore destination folder if exists')
 # create arguments
 args = parser.parse_args()
+
+# initialize
+#aug_options = ['h_flip','v_flip','rotate','blur','noise','crop','resize','color','brightness','contrast','gamma','hue','saturation','value']
+aug_options = ['h_flip','v_flip','noise']
+
+# define augmentation functions
+def h_flip(image,shapes):
+    image_aug = cv2.flip(image,1)
+    for shape in shapes:
+        points = shape['points']
+        for point in points:
+            point[0] = image.shape[1] - point[0]
+    return image_aug,shapes
+
+def v_flip(image,shapes):
+    image_aug = cv2.flip(image,0)
+    for shape in shapes:
+        points = shape['points']
+        for point in points:
+            point[1] = image.shape[0] - point[1]
+    return image_aug,shapes
+
+def noise(image,shapes):
+    image_aug = image.copy()
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            for k in range(image.shape[2]):
+                image_aug[i,j,k] = image[i,j,k] + random.randint(-10,10)
+    return image_aug,shapes
 
 if __name__ == "__main__":
     print('labelme dataset augmentation tool, Number of sample = {}'.format(args.no_sample))
@@ -51,14 +83,58 @@ if __name__ == "__main__":
     if len(annotation_files) != len(src_files)/2:
         print('Error: number of annotation files {} is not equal to number of image files {}'.format(len(annotation_files),len(src_files)/2))
         exit(-1)
+    
+    # trim annotation files if necessary
+    if len(annotation_files) > args.no_sample:
+        annotation_files = annotation_files[:args.no_sample]
+        print('Trim annotation files to {}'.format(len(annotation_files)))
         
     # calculate augmented times of each image
     augmented_times = int(args.no_sample/len(annotation_files))
     print('Augmented times of each image: {}'.format(augmented_times))
         
-    # start augmentation
+    # loop for each annotation file
     for annotation_file in tqdm(annotation_files):
         annotation_path = os.path.join(args.src_path,annotation_file)
+        
         # read annotation file
+        with open(annotation_path,'r') as f:
+            annotation = json.load(f)
+
+        # read image
+        image_path = os.path.join(args.src_path,annotation['imagePath'])
+        image = cv2.imread(image_path)
         
-        
+        # start augmentation
+        for i in range(augmented_times):
+            
+            # random choose augmentation option
+            aug_option = random.choice(aug_options)
+            
+            # get shape of annotations
+            shapes = annotation['shapes']
+            
+            if aug_option == 'h_flip':
+                image_aug,shapes_aug = h_flip(image_aug,shapes)
+
+            elif aug_option == 'v_flip':
+                image_aug,shapes = v_flip(image_aug,shapes)
+
+            elif aug_option == 'noise':
+                image_aug,shapes = noise(image_aug,shapes)
+
+            # convert image to base64
+            retval, buffer = cv2.imencode('.jpg', image_aug)
+            jpg_as_text = base64.b64encode(buffer)
+
+            aug_annotation = annotation.copy()
+            aug_annotation['imageData'] = jpg_as_text.decode('utf-8')
+            aug_annotation['shapes'] = shapes_aug # clear shapes
+            aug_annotation['imagePath'] = os.path.splitext(annotation['imagePath'])[0] + '_aug_{}.jpg'.format(i)
+            
+            # export augmented image and annotation file
+            cv2.imwrite(os.path.join(args.dst_path,aug_annotation['imagePath']),image_aug)
+            with open(os.path.join(args.dst_path,os.path.splitext(annotation_file)[0] + '_aug_{}.json'.format(i)),'w') as f:
+                json.dump(aug_annotation,f)
+    
+    print('Augmentation done!')
