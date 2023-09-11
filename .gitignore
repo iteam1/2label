@@ -4,12 +4,12 @@
 *.zip
 
 # folders
-__pycache__
-env
-.ipynb_checkpoints
-debug
 dst
+src
 tmp
+env
+__pycache__
+.ipynb_checkpoints
 
 # models
 *.h5
