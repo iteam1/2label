@@ -1,7 +1,9 @@
 # 2label
 tool convert annotations
 
-![draft](assets/diagram.png)
+<div align="center">
+    <img src="assets/diagram.png">
+</div>
 
 # functions
 - convert
