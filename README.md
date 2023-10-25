@@ -13,6 +13,8 @@ tool convert annotations
   + augment data 
   
 # Annotation tools
+https://docs.cogniflow.ai/en/article/how-to-create-a-dataset-for-object-detection-using-the-yolo-labeling-format-1tahk19/
+
 - [labelImg](https://github.com/heartexlabs/labelImg) install command: `pip install labelImg`
 - [labelme](https://github.com/wkentaro/labelme) install command: `pip install labelme`
 - [PixelAnnotationTool](https://github.com/abreheret/PixelAnnotationTool)
