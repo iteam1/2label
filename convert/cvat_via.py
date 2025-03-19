@@ -1,124 +1,188 @@
-import sys
+"""
+Convert CVAT XML format to VIA JSON format.
+
+Usage:
+    python cvat_via.py --input_dir /path/to/cvat --output_dir /path/to/output
+"""
+
 import os
-import shutil
+import sys
 import json
+import argparse
+import shutil
 from xml.dom import minidom
+from pathlib import Path
 
-src = sys.argv[1]
-dst = 'dst'
-if not os.path.exists(dst):
-    os.mkdir(dst)
-else:
-    print('please remove dst first')
-    exit(-1)
+from .utils import ensure_dir, clean_dir
 
-# all supported annotation types
-annotation_types = ['box','polygon','polyline']
-dict = {}
+
+def cvat_to_via(input_dir, output_dir="dst"):
+    """
+    Convert CVAT XML format to VIA JSON format.
+    
+    Args:
+        input_dir (str): Directory containing CVAT XML annotations.xml file and images
+        output_dir (str, optional): Output directory for VIA files. Defaults to "dst".
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Create output directory
+        if not clean_dir(output_dir):
+            print(f"Failed to create or clean output directory {output_dir}")
+            return False
+            
+        # Define supported annotation types
+        annotation_types = ['box', 'polygon', 'polyline']
+        
+        # Initialize VIA project data
+        via_project = {}
+        
+        # Parse CVAT XML file
+        xml_path = os.path.join(input_dir, 'annotations.xml')
+        if not os.path.exists(xml_path):
+            print(f"CVAT annotations file not found at {xml_path}")
+            return False
+            
+        try:
+            xml_doc = minidom.parse(xml_path)
+        except Exception as e:
+            print(f"Failed to parse XML file {xml_path}: {str(e)}")
+            return False
+            
+        # Get all images from XML
+        images = xml_doc.getElementsByTagName('image')
+        num_images = images.length
+        
+        if num_images == 0:
+            print("No images found in the CVAT XML file")
+            return False
+            
+        print(f"Found {num_images} images in CVAT XML file")
+        
+        # Process each image
+        for i, image in enumerate(images):
+            print(f"Processing image {i+1}/{num_images}")
+            
+            # Get image filename
+            image_name = image.getAttribute('name')
+            if not image_name:
+                print(f"Warning: Image at index {i} has no name attribute. Skipping.")
+                continue
+                
+            # Get image dimensions
+            image_width = int(image.getAttribute('width'))
+            image_height = int(image.getAttribute('height'))
+            
+            # Create VIA image entry
+            image_key = f"{i}_{image_name}"
+            via_project[image_key] = {
+                "filename": image_name,
+                "size": -1,  # Will be updated when copying the file
+                "regions": [],
+                "file_attributes": {}
+            }
+            
+            # Copy image file if it exists
+            src_image_path = os.path.join(input_dir, image_name)
+            if os.path.exists(src_image_path):
+                dst_image_path = os.path.join(output_dir, image_name)
+                try:
+                    file_size = Path(src_image_path).stat().st_size
+                    Path(src_image_path).copy(dst_image_path)
+                    via_project[image_key]["size"] = file_size
+                except Exception as e:
+                    print(f"Warning: Failed to copy image {src_image_path}: {str(e)}")
+            else:
+                print(f"Warning: Image file {src_image_path} not found")
+            
+            # Process annotations
+            for annotation_type in annotation_types:
+                annotations = image.getElementsByTagName(annotation_type)
+                
+                for j, annotation in enumerate(annotations):
+                    # Get label
+                    label = annotation.getAttribute('label')
+                    
+                    region = {
+                        "shape_attributes": {},
+                        "region_attributes": {
+                            "label": label
+                        }
+                    }
+                    
+                    # Handle different annotation types
+                    if annotation_type == 'box':
+                        # Get box coordinates
+                        xtl = float(annotation.getAttribute('xtl'))
+                        ytl = float(annotation.getAttribute('ytl'))
+                        xbr = float(annotation.getAttribute('xbr'))
+                        ybr = float(annotation.getAttribute('ybr'))
+                        
+                        # Convert to VIA format (x, y, width, height)
+                        x = xtl
+                        y = ytl
+                        width = xbr - xtl
+                        height = ybr - ytl
+                        
+                        region["shape_attributes"] = {
+                            "name": "rect",
+                            "x": x,
+                            "y": y,
+                            "width": width,
+                            "height": height
+                        }
+                    
+                    elif annotation_type in ['polygon', 'polyline']:
+                        # Get points
+                        points_str = annotation.getAttribute('points')
+                        points = []
+                        
+                        for point_str in points_str.split(';'):
+                            if ',' in point_str:
+                                x, y = point_str.split(',')
+                                points.append([float(x), float(y)])
+                        
+                        # Convert to VIA format
+                        all_x = [p[0] for p in points]
+                        all_y = [p[1] for p in points]
+                        
+                        region["shape_attributes"] = {
+                            "name": "polygon" if annotation_type == "polygon" else "polyline",
+                            "all_points_x": all_x,
+                            "all_points_y": all_y
+                        }
+                    
+                    # Add region to image regions
+                    via_project[image_key]["regions"].append(region)
+        
+        # Save VIA project file
+        via_project_path = os.path.join(output_dir, 'via_region_data.json')
+        try:
+            with open(via_project_path, 'w') as f:
+                json.dump(via_project, f, indent=2)
+            print(f"VIA project saved to {via_project_path}")
+        except Exception as e:
+            print(f"Failed to save VIA project: {str(e)}")
+            return False
+        
+        print(f"Conversion complete. Results saved to {output_dir}")
+        return True
+        
+    except Exception as e:
+        print(f"Error during conversion: {str(e)}")
+        return False
+
+
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description="Convert CVAT XML format to VIA JSON format")
+    parser.add_argument('--input_dir', required=True, help="Directory containing CVAT annotations.xml file")
+    parser.add_argument('--output_dir', default="dst", help="Output directory for VIA files")
+    return parser.parse_args()
+
 
 if __name__ == "__main__":
-    # read xml file
-    file = minidom.parse(os.path.join(src,'annotations.xml'))
-
-    # use getElementsByTagName() to get tag image
-    images = file.getElementsByTagName('image')
-    n = images.length
-    print('Found',n,'images')
-
-    for i in range(n):
-        tmp = {}
-        print('image',i)
-        # get i-th image
-        image = images[i]
-        img_name = image.attributes['name'].value
-        img_width = int(image.attributes['width'].value)
-        img_height = int(image.attributes['height'].value)
-        img_size = os.path.getsize(os.path.join(src,'images',img_name))
-
-        # copy image
-        shutil.copy(os.path.join(src,'images',img_name),os.path.join(dst,img_name))
-
-        # create temporary dict
-        tmp['filename'] = img_name
-        tmp['file_attributes'] = {}
-        tmp['size'] = img_size
-        tmp['regions'] = []
-
-        # get annotation follow ananotation_types
-        for annotation_type in annotation_types:
-            annotations = image.getElementsByTagName(annotation_type)
-            m = annotations.length
-            print('\t\t','Found',m,annotation_type)
-
-            for annotation in annotations:
-                # current region
-                region = {
-                    "shape_attributes":{},
-                    "region_attributes": {
-                        "labels": ""
-                    }
-                }
-                # get label
-                label = annotation.attributes['label'].value
-                region["region_attributes"]["labels"]=label
-
-                if annotation_type == "box":
-                    region_name = "rect"
-                    region['shape_attributes']['name'] = region_name
-                    xtl = int(float(annotation.attributes['xtl'].value))
-                    ytl = int(float(annotation.attributes['ytl'].value))
-                    xbr = int(float(annotation.attributes['xbr'].value))
-                    ybr = int(float(annotation.attributes['ybr'].value))
-                    width = xbr -xtl
-                    height = ybr - ytl
-                    region['shape_attributes']['x'] = xtl
-                    region['shape_attributes']['y'] = ytl
-                    region['shape_attributes']['width'] = width
-                    region['shape_attributes']['height'] = height
-
-                elif annotation_type == "polygon":
-                    region_name = "polygon"
-                    region['shape_attributes']['name'] = region_name
-                    region['shape_attributes']['all_points_x'] = []
-                    region['shape_attributes']['all_points_y'] = []
-                    points = annotation.attributes['points'].value
-                    points = points.split(';')
-                    for point in points:
-                        x,y = point.split(',')
-                        region['shape_attributes']['all_points_x'].append(int(float(x)))
-                        region['shape_attributes']['all_points_y'].append(int(float(y)))
-
-
-                elif annotation_type == "polyline":
-                    region_name = "polyline"
-                    region['shape_attributes']['name'] = region_name
-                    region['shape_attributes']['all_points_x'] = []
-                    region['shape_attributes']['all_points_y'] = []
-                    points = annotation.attributes['points'].value
-                    points = points.split(';')
-                    for point in points:
-                        x,y = point.split(',')
-                        region['shape_attributes']['all_points_x'].append(int(float(x)))
-                        region['shape_attributes']['all_points_y'].append(int(float(y)))
-
-                else:
-                    print("Error:",annotation_type,"is not supported")
-                    continue
-
-                # update region
-                tmp["regions"].append(region)
-
-        img_key = img_name + str(img_size)
-        # update to dictionary
-        dict[img_key] = tmp
-
-    # serializing json
-    json_object =json.dumps(dict,indent=4)
-
-    # writing to json file
-    with open(os.path.join(dst,'via_json_dat.json'),'w') as f:
-        f.write(json_object)
-        
-    print("Done!")
-
-    exit(0)
+    args = parse_args()
+    cvat_to_via(args.input_dir, args.output_dir)

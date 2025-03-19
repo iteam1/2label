@@ -1,98 +1,171 @@
+"""
+Convert LabelMe 3.0 (XML) format to LabelMe format.
+
+Usage:
+    python labelme3_labelme.py --input_dir /path/to/labelme3 --output_dir /path/to/output
+"""
+
 import os
 import sys
 import json
-import shutil
+import argparse
 import base64
 from xml.dom import minidom
 from PIL import Image
+from pathlib import Path
 
-src = sys.argv[1]
+from .utils import ensure_dir, clean_dir, get_image_dimensions, image_to_base64
 
-dst = 'dst'
-if not os.path.exists(dst):
-    os.mkdir(dst)
-else:
-    print('please remove dst first')
-    exit(-1)
-    
-# create image folder
-os.mkdir(os.path.join(dst,'images'))
 
-# create json folder
-os.mkdir(os.path.join(dst,'annotations'))
+def xml_to_json(xml_path, image_path):
+    """
+    Convert a LabelMe 3.0 XML file to LabelMe JSON format.
     
-def xml_to_json(xml_file):
-    json_data = {}
-    json_data['version'] = '5.2.1'
-    json_data['flags'] = {}
-    json_data['shapes'] = []
-    json_data['imagePath'] = xml_file.split('.')[0]+'.jpg'
-    
-    # convert image to base64
-    with open(os.path.join(src,json_data['imagePath']), "rb") as img_file:
-        img_string = base64.b64encode(img_file.read())
-        img_string = img_string.decode('utf-8')
-    json_data['imageData'] = img_string
-    
-    # get image shape
-    img = Image.open(os.path.join(src,json_data['imagePath']))
-    img_width, img_height = img.size
-    json_data['imageHeight'] = int(img_height)
-    json_data['imageWidth'] = int(img_width)
-    
-    # read xml file
-    file = minidom.parse(os.path.join(src,xml_file))
-    
-    # use getElementsByTagName() to get tag objects
-    objects = file.getElementsByTagName('object')
-    
-    for object in objects:
-        # current shape
-        shape = {}
-        shape['points'] = []
-        shape['group_id'] = None
-        shape['description'] = ""
-        shape['flags'] = {}
-        shape['shape_type'] = "polygon"
+    Args:
+        xml_path (str): Path to the XML file
+        image_path (str): Path to the corresponding image file
         
-        # get label
-        shape['label'] = object.getElementsByTagName('name')[0].firstChild.data
+    Returns:
+        dict: LabelMe format JSON data
+    """
+    try:
+        # Initialize JSON structure
+        json_data = {
+            'version': '5.2.1',
+            'flags': {},
+            'shapes': [],
+            'imagePath': os.path.basename(image_path)
+        }
         
-        # get polygon
-        polygon = object.getElementsByTagName('polygon')[0]
-        pts = polygon.getElementsByTagName('pt')
-        for pt in pts:
-            x = float(pt.getElementsByTagName('x')[0].firstChild.data)
-            y = float(pt.getElementsByTagName('y')[0].firstChild.data)
-            point = [x,y]
-            shape['points'].append(point)
+        # Convert image to base64
+        try:
+            json_data['imageData'] = image_to_base64(image_path)
+        except Exception as e:
+            print(f"Warning: Failed to encode image {image_path}: {str(e)}")
+            json_data['imageData'] = None
         
-        # append shape to shapes
-        json_data['shapes'].append(shape)
-    
-    return json_data
+        # Get image dimensions
+        try:
+            width, height = get_image_dimensions(image_path)
+            json_data['imageWidth'] = width
+            json_data['imageHeight'] = height
+        except Exception as e:
+            print(f"Warning: Failed to get dimensions for {image_path}: {str(e)}")
+            json_data['imageWidth'] = 0
+            json_data['imageHeight'] = 0
+        
+        # Parse XML file
+        try:
+            xml_doc = minidom.parse(xml_path)
+            
+            # Extract objects
+            objects = xml_doc.getElementsByTagName('object')
+            
+            for obj in objects:
+                # Current shape
+                shape = {
+                    'label': obj.getElementsByTagName('name')[0].firstChild.data,
+                    'points': [],
+                    'group_id': None,
+                    'shape_type': 'polygon',
+                    'flags': {}
+                }
+                
+                # Get polygon points
+                polygon = obj.getElementsByTagName('polygon')[0]
+                pts = polygon.getElementsByTagName('pt')
+                
+                for pt in pts:
+                    x = float(pt.getElementsByTagName('x')[0].firstChild.data)
+                    y = float(pt.getElementsByTagName('y')[0].firstChild.data)
+                    shape['points'].append([x, y])
+                
+                # Add shape to shapes list
+                json_data['shapes'].append(shape)
+            
+            return json_data
+            
+        except Exception as e:
+            print(f"Error parsing XML file {xml_path}: {str(e)}")
+            return None
+            
+    except Exception as e:
+        print(f"Error processing file {xml_path}: {str(e)}")
+        return None
 
-# collect all xml files
-xml_files = []
-for file in os.listdir(src):
-    if '.xml' in file:
-        xml_files.append(file)
 
-print(f'total: {len(xml_files)} xml files')
+def labelme3_to_labelme(input_dir, output_dir="dst"):
+    """
+    Convert all LabelMe 3.0 XML files in a directory to LabelMe JSON format.
+    
+    Args:
+        input_dir (str): Directory containing LabelMe 3.0 XML files
+        output_dir (str, optional): Output directory for LabelMe files. Defaults to "dst".
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Create output directories
+        output_images_dir = os.path.join(output_dir, 'images')
+        output_annotations_dir = os.path.join(output_dir, 'annotations')
+        
+        clean_dir(output_dir)
+        ensure_dir(output_images_dir)
+        ensure_dir(output_annotations_dir)
+        
+        # Find all XML files
+        xml_files = [f for f in os.listdir(input_dir) if f.endswith('.xml')]
+        
+        if not xml_files:
+            print(f"No XML files found in {input_dir}")
+            return False
+            
+        print(f"Converting {len(xml_files)} LabelMe 3.0 XML files to LabelMe format...")
+        
+        for xml_file in xml_files:
+            base_name = os.path.splitext(xml_file)[0]
+            image_file = f"{base_name}.jpg"  # Assuming JPG format
+            
+            # Check if image exists
+            image_path = os.path.join(input_dir, image_file)
+            if not os.path.exists(image_path):
+                print(f"Warning: Image file {image_file} not found. Skipping {xml_file}.")
+                continue
+                
+            # Convert XML to JSON
+            xml_path = os.path.join(input_dir, xml_file)
+            json_data = xml_to_json(xml_path, image_path)
+            
+            if json_data:
+                # Save JSON file
+                json_path = os.path.join(output_annotations_dir, f"{base_name}.json")
+                with open(json_path, 'w') as f:
+                    json.dump(json_data, f, indent=2)
+                    
+                # Copy image file
+                dst_image_path = os.path.join(output_images_dir, image_file)
+                try:
+                    Path(image_path).copy(dst_image_path)
+                except Exception as e:
+                    print(f"Error copying image {image_path}: {str(e)}")
+        
+        print(f"Conversion complete. Results saved to {output_dir}")
+        return True
+        
+    except Exception as e:
+        print(f"Error during conversion: {str(e)}")
+        return False
 
-for xml_file in xml_files:
-    print(xml_file)
-    # get xml file name
-    file_name = xml_file.split('.')[0]
-    
-    # copy image to destination folder
-    shutil.copy(os.path.join(src,file_name+'.jpg'),os.path.join(dst,'images',file_name+'.jpg'))
-    
-    # convert xml to json
-    json_data = xml_to_json(xml_file)
-    
-    # serializing json
-    json_object =json.dumps(json_data,indent=4)
-    with open(os.path.join(dst,'annotations',file_name+'.json'),'w') as f:
-        f.write(json_object)
-    
+
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description="Convert LabelMe 3.0 XML files to LabelMe JSON format")
+    parser.add_argument('--input_dir', required=True, help="Directory containing LabelMe 3.0 XML files")
+    parser.add_argument('--output_dir', default="dst", help="Output directory for LabelMe files")
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    labelme3_to_labelme(args.input_dir, args.output_dir)

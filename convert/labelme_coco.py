@@ -1,163 +1,287 @@
+"""
+Convert LabelMe JSON format to COCO format.
+
+Usage:
+    python labelme_coco.py --input_dir /path/to/labelme --output_file /path/to/coco.json
+"""
+
 import os
 import argparse
 import json
-
-from labelme import utils
-import numpy as np
 import glob
-import PIL.Image
+from datetime import datetime
+
+import numpy as np
+from PIL import Image
+from labelme import utils
 
 
-class labelme2coco(object):
-    def __init__(self, labelme_json=[], save_json_path="./coco.json"):
+class LabelMeToCOCO:
+    """Class to convert LabelMe JSON format to COCO format."""
+    
+    def __init__(self, labelme_files=None, output_file="coco.json"):
         """
-        :param labelme_json: the list of all labelme json file paths
-        :param save_json_path: the path to save new json
+        Initialize the converter.
+        
+        Args:
+            labelme_files (list): List of LabelMe JSON file paths
+            output_file (str): Path to save the output COCO JSON file
         """
-        self.labelme_json = labelme_json
-        self.save_json_path = save_json_path
+        self.labelme_files = labelme_files or []
+        self.output_file = output_file
         self.images = []
         self.categories = []
         self.annotations = []
-        self.label = []
-        self.annID = 1
+        self.labels = []
+        self.annotation_id = 1
         self.height = 0
         self.width = 0
-
-        self.save_json()
-
-    def data_transfer(self):
-        for num, json_file in enumerate(self.labelme_json):
-            with open(json_file, "r") as fp:
-                data = json.load(fp)
-                self.images.append(self.image(data, num))
-                for shapes in data["shapes"]:
-                    label = shapes["label"].split("_")
-                    if label not in self.label:
-                        self.label.append(label)
-                    points = shapes["points"]
-                    self.annotations.append(self.annotation(points, label, num))
-                    self.annID += 1
-
-        # Sort all text labels so they are in the same order across data splits.
-        self.label.sort()
-        for label in self.label:
-            self.categories.append(self.category(label))
+        
+    def process_data(self):
+        """Process LabelMe data and convert to COCO format."""
+        for file_index, json_file in enumerate(self.labelme_files):
+            try:
+                data = self._load_json_file(json_file)
+                if not data:
+                    continue
+                    
+                # Process image info
+                image_id = file_index
+                self._process_image(data, image_id, json_file)
+                
+                # Process shapes (annotations)
+                self._process_shapes(data, image_id)
+                
+            except Exception as e:
+                print(f"Error processing file {json_file}: {str(e)}")
+        
+        # Update category IDs in the annotations
+        self._update_category_ids()
+        
+    def _load_json_file(self, json_file):
+        """Load a LabelMe JSON file."""
+        try:
+            with open(json_file, "r") as f:
+                data = json.load(f)
+            return data
+        except Exception as e:
+            print(f"Error loading {json_file}: {str(e)}")
+            return None
+            
+    def _process_image(self, data, image_id, json_file):
+        """Process image data and add to images list."""
+        try:
+            # Get image dimensions
+            if "imageWidth" in data and "imageHeight" in data:
+                self.height = data["imageHeight"]
+                self.width = data["imageWidth"]
+            else:
+                # Try to get image size from file
+                img_file = data.get("imagePath")
+                if img_file:
+                    img_path = os.path.join(os.path.dirname(json_file), img_file)
+                    if os.path.exists(img_path):
+                        with Image.open(img_path) as img:
+                            self.width, self.height = img.size
+                    else:
+                        print(f"Warning: Image file {img_path} not found")
+                
+            # Create image info
+            image = {
+                "height": self.height,
+                "width": self.width,
+                "id": image_id,
+                "file_name": os.path.basename(data.get("imagePath", f"image_{image_id}.jpg"))
+            }
+            self.images.append(image)
+            
+        except Exception as e:
+            print(f"Error processing image data for {json_file}: {str(e)}")
+            
+    def _process_shapes(self, data, image_id):
+        """Process shape data and add to annotations list."""
+        for shape in data.get("shapes", []):
+            try:
+                label = shape.get("label")
+                if label not in self.labels:
+                    self.labels.append(label)
+                    
+                # Get annotation data
+                points = shape.get("points", [])
+                shape_type = shape.get("shape_type", "polygon")
+                
+                if shape_type == "polygon":
+                    # Convert points to numpy array
+                    points_array = np.array(points)
+                    x = points_array[:, 0]
+                    y = points_array[:, 1]
+                    
+                    # Create segmentation
+                    segmentation = [points_array.flatten().tolist()]
+                    
+                    # Create bounding box
+                    x_min = np.min(x)
+                    y_min = np.min(y)
+                    x_max = np.max(x)
+                    y_max = np.max(y)
+                    width = x_max - x_min
+                    height = y_max - y_min
+                    bbox = [x_min, y_min, width, height]
+                    
+                    # Create area
+                    area = self._calculate_area(points_array)
+                    
+                    # Create annotation
+                    annotation = {
+                        "segmentation": segmentation,
+                        "area": area,
+                        "iscrowd": 0,
+                        "image_id": image_id,
+                        "bbox": bbox,
+                        "category_id": -1,  # Will be updated later
+                        "id": self.annotation_id,
+                        "category_name": label  # Temporary field
+                    }
+                    
+                    self.annotations.append(annotation)
+                    self.annotation_id += 1
+                    
+                elif shape_type == "rectangle":
+                    # For rectangle, we have two points: top-left and bottom-right
+                    if len(points) == 2:
+                        x1, y1 = points[0]
+                        x2, y2 = points[1]
+                        
+                        # Create bounding box
+                        x_min = min(x1, x2)
+                        y_min = min(y1, y2)
+                        width = abs(x2 - x1)
+                        height = abs(y2 - y1)
+                        bbox = [x_min, y_min, width, height]
+                        
+                        # Create segmentation (rectangle to polygon)
+                        segmentation = [[x_min, y_min, x_min + width, y_min,
+                                        x_min + width, y_min + height, x_min, y_min + height]]
+                        
+                        # Create area
+                        area = width * height
+                        
+                        # Create annotation
+                        annotation = {
+                            "segmentation": segmentation,
+                            "area": area,
+                            "iscrowd": 0,
+                            "image_id": image_id,
+                            "bbox": bbox,
+                            "category_id": -1,  # Will be updated later
+                            "id": self.annotation_id,
+                            "category_name": label  # Temporary field
+                        }
+                        
+                        self.annotations.append(annotation)
+                        self.annotation_id += 1
+                
+            except Exception as e:
+                print(f"Error processing shape {shape}: {str(e)}")
+                
+    def _calculate_area(self, points_array):
+        """Calculate the area of a polygon."""
+        return 0.5 * abs(np.dot(points_array[:, 0], np.roll(points_array[:, 1], 1)) - 
+                        np.dot(points_array[:, 1], np.roll(points_array[:, 0], 1)))
+                
+    def _update_category_ids(self):
+        """Update category IDs in annotations and create categories list."""
+        for i, label in enumerate(self.labels):
+            category = {
+                "supercategory": "object",
+                "id": i + 1,
+                "name": label
+            }
+            self.categories.append(category)
+            
+        # Update category IDs in annotations
         for annotation in self.annotations:
-            annotation["category_id"] = self.getcatid(annotation["category_id"])
+            category_name = annotation.pop("category_name", None)
+            if category_name:
+                category_id = self.labels.index(category_name) + 1
+                annotation["category_id"] = category_id
+                
+    def save(self):
+        """Save the COCO format data to a JSON file."""
+        try:
+            data = {
+                "info": {
+                    "description": "Converted from LabelMe format",
+                    "url": "",
+                    "version": "1.0",
+                    "year": datetime.now().year,
+                    "contributor": "LabelMe to COCO Converter",
+                    "date_created": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                },
+                "licenses": [{
+                    "id": 1,
+                    "name": "Unknown",
+                    "url": ""
+                }],
+                "images": self.images,
+                "annotations": self.annotations,
+                "categories": self.categories
+            }
+            
+            with open(self.output_file, "w") as f:
+                json.dump(data, f, indent=2)
+                
+            print(f"Conversion complete. Output saved to {self.output_file}")
+            print(f"  - Images: {len(self.images)}")
+            print(f"  - Categories: {len(self.categories)}")
+            print(f"  - Annotations: {len(self.annotations)}")
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error saving COCO data: {str(e)}")
+            return False
 
-    def image(self, data, num):
-        image = {}
-        img = utils.img_b64_to_arr(data["imageData"])
-        height, width = img.shape[:2]
-        img = None
-        image["height"] = height
-        image["width"] = width
-        image["id"] = num
-        image["file_name"] = data["imagePath"].split("/")[-1]
 
-        self.height = height
-        self.width = width
+def labelme_to_coco(input_dir, output_file="coco.json"):
+    """
+    Convert LabelMe JSON files to COCO format.
+    
+    Args:
+        input_dir (str): Directory containing LabelMe JSON files
+        output_file (str, optional): Output COCO JSON file. Defaults to "coco.json".
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Find all JSON files
+        labelme_files = glob.glob(os.path.join(input_dir, "*.json"))
+        
+        if not labelme_files:
+            print(f"No JSON files found in {input_dir}")
+            return False
+            
+        print(f"Converting {len(labelme_files)} LabelMe JSON files to COCO format...")
+        
+        # Convert to COCO format
+        converter = LabelMeToCOCO(labelme_files, output_file)
+        converter.process_data()
+        return converter.save()
+        
+    except Exception as e:
+        print(f"Error during conversion: {str(e)}")
+        return False
 
-        return image
 
-    def category(self, label):
-        category = {}
-        category["supercategory"] = label[0]
-        category["id"] = len(self.categories)
-        category["name"] = label[0]
-        return category
-
-    def annotation(self, points, label, num):
-        annotation = {}
-        contour = np.array(points)
-        x = contour[:, 0]
-        y = contour[:, 1]
-        area = 0.5 * np.abs(np.dot(x, np.roll(y, 1)) - np.dot(y, np.roll(x, 1)))
-        annotation["segmentation"] = [list(np.asarray(points).flatten())]
-        annotation["iscrowd"] = 0
-        annotation["area"] = area
-        annotation["image_id"] = num
-
-        annotation["bbox"] = list(map(float, self.getbbox(points)))
-
-        annotation["category_id"] = label[0]  # self.getcatid(label)
-        annotation["id"] = self.annID
-        return annotation
-
-    def getcatid(self, label):
-        for category in self.categories:
-            if label == category["name"]:
-                return category["id"]
-        print("label: {} not in categories: {}.".format(label, self.categories))
-        exit()
-        return -1
-
-    def getbbox(self, points):
-        polygons = points
-        mask = self.polygons_to_mask([self.height, self.width], polygons)
-        return self.mask2box(mask)
-
-    def mask2box(self, mask):
-
-        index = np.argwhere(mask == 1)
-        rows = index[:, 0]
-        clos = index[:, 1]
-
-        left_top_r = np.min(rows)  # y
-        left_top_c = np.min(clos)  # x
-
-        right_bottom_r = np.max(rows)
-        right_bottom_c = np.max(clos)
-
-        return [
-            left_top_c,
-            left_top_r,
-            right_bottom_c - left_top_c,
-            right_bottom_r - left_top_r,
-        ]
-
-    def polygons_to_mask(self, img_shape, polygons):
-        mask = np.zeros(img_shape, dtype=np.uint8)
-        mask = PIL.Image.fromarray(mask)
-        xy = list(map(tuple, polygons))
-        PIL.ImageDraw.Draw(mask).polygon(xy=xy, outline=1, fill=1)
-        mask = np.array(mask, dtype=bool)
-        return mask
-
-    def data2coco(self):
-        data_coco = {}
-        data_coco["images"] = self.images
-        data_coco["categories"] = self.categories
-        data_coco["annotations"] = self.annotations
-        return data_coco
-
-    def save_json(self):
-        print("save coco json")
-        self.data_transfer()
-        self.data_coco = self.data2coco()
-
-        print(self.save_json_path)
-        os.makedirs(
-            os.path.dirname(os.path.abspath(self.save_json_path)), exist_ok=True
-        )
-        json.dump(self.data_coco, open(self.save_json_path, "w"), indent=4)
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description="Convert LabelMe JSON files to COCO format")
+    parser.add_argument("--input_dir", required=True, help="Directory containing LabelMe JSON files")
+    parser.add_argument("--output_file", default="coco.json", help="Output COCO JSON file")
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description="labelme annotation to coco data json file."
-    )
-    parser.add_argument(
-        "labelme_images",
-        help="Directory to labelme images and annotation json files.",
-        type=str,
-    )
-    parser.add_argument(
-        "--output", help="Output json file path.", default="trainval.json"
-    )
-    args = parser.parse_args()
-    labelme_json = glob.glob(os.path.join(args.labelme_images, "*.json"))
-    labelme2coco(labelme_json, args.output)
+    args = parse_args()
+    labelme_to_coco(args.input_dir, args.output_file)
